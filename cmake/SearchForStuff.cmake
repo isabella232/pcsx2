@@ -68,6 +68,8 @@ endif()
 find_package(wxWidgets COMPONENTS base core adv)
 find_package(ZLIB)
 
+find_package(Lua51)
+
 ## Use pcsx2 package to find module
 include(FindLibc)
 
@@ -174,6 +176,15 @@ endif()
 
 if(ZLIB_FOUND)
 	include_directories(${ZLIB_INCLUDE_DIRS})
+endif()
+
+if(LUA51_FOUND)
+	if(EXISTS "${CMAKE_SOURCE_DIR}/3rdparty/lua/include")
+		# Workaround for using internal header files
+		include_directories(${CMAKE_SOURCE_DIR}/3rdparty/lua/include)
+	else()
+		include_directories(${LUA_INCLUDE_DIR})
+	endif()
 endif()
 
 #----------------------------------------

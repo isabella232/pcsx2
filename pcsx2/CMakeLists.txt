@@ -36,6 +36,10 @@ if(XDG_STD)
     set(pcsx2FinalFlags ${pcsx2FinalFlags} -DXDG_STD)
 endif()
 
+if(LUA51_FOUND)
+    set(pcsx2FinalFlags ${pcsx2FinalFlags} -DHAVE_LUA)
+endif()
+
 set(Output PCSX2)
 
 # Main pcsx2 source
@@ -347,6 +351,13 @@ set(pcsx2GuiHeaders
 	gui/pxEventThread.h
 	gui/RecentIsoList.h
 	)
+
+if(LUA51_FOUND)
+    set(pcsx2Sources ${pcsx2Sources} lua-engine.cpp)
+    set(pcsx2Headers ${pcsx2Headers} lua-engine.h)
+    set(pcsx2GuiSources ${pcsx2GuiSources} gui/Debugger/LuaConsoleWindow.cpp)
+    set(pcsx2GuiHeaders ${pcsx2GuiHeaders} gui/Debugger/LuaConsoleWindow.h)
+endif()
 
 # Warning: the declaration of the .h are mandatory in case of resources files. It will ensure the creation
 # from the bin2cpp tools at the good moment (ie .h must be created before the pcsx2 compilation)
@@ -684,6 +695,9 @@ if(BUILTIN_DEV)
 endif()
 if(BUILTIN_CDVD)
     set(pcsx2FinalLibs "${pcsx2FinalLibs} CDVDnull")
+endif()
+if(LUA51_FOUND)
+    set(pcsx2FinalLibs ${pcsx2FinalLibs} ${LUA_LIBRARIES})
 endif()
 
 # additonal include directories

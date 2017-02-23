@@ -27,6 +27,10 @@
 #include "Dialogs/LogOptionsDialog.h"
 #include "Debugger/DisassemblyDialog.h"
 
+#ifdef HAVE_LUA
+#include "Debugger/LuaConsoleWindow.h"
+#endif
+
 #include "Utilities/IniInterface.h"
 
 using namespace Dialogs;
@@ -610,6 +614,20 @@ void MainEmuFrame::Menu_Debug_MemoryDump_Click(wxCommandEvent &event)
 void MainEmuFrame::Menu_Debug_Logging_Click(wxCommandEvent &event)
 {
 	AppOpenDialog<LogOptionsDialog>( this );
+}
+
+void MainEmuFrame::Menu_Lua_NewWindow(wxCommandEvent &event)
+{
+#ifdef HAVE_LUA
+	LuaConsoleWindow::New();
+#endif
+}
+
+void MainEmuFrame::Menu_Lua_CloseAllWindows(wxCommandEvent &event)
+{
+#ifdef HAVE_LUA
+	LuaConsoleWindow::CloseAll();
+#endif
 }
 
 void MainEmuFrame::Menu_ShowConsole(wxCommandEvent &event)

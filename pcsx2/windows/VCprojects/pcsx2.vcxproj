@@ -44,6 +44,7 @@
     <Import Project="vsprops\common.props" />
     <Import Project="..\..\..\common\vsprops\BaseProperties.props" />
     <Import Project="..\..\..\common\vsprops\3rdpartyDeps.props" />
+    <Import Project="..\..\..\common\vsprops\lua.props" />
     <Import Project="..\..\..\common\vsprops\pthreads.props" />
     <Import Condition="$(Configuration.Contains(Debug))" Project="..\..\..\common\vsprops\CodeGen_Debug.props" />
     <Import Condition="$(Configuration.Contains(Devel))" Project="..\..\..\common\vsprops\CodeGen_Devel.props" />
@@ -179,6 +180,7 @@
     <ClCompile Include="..\..\gui\Debugger\DebugEvents.cpp" />
     <ClCompile Include="..\..\gui\Debugger\DebuggerLists.cpp" />
     <ClCompile Include="..\..\gui\Debugger\DisassemblyDialog.cpp" />
+    <ClCompile Include="..\..\gui\Debugger\LuaConsoleWindow.cpp" />
     <ClCompile Include="..\..\gui\Dialogs\GameDatabaseDialog.cpp" />
     <ClCompile Include="..\..\gui\Dialogs\McdConfigDialog.cpp" />
     <ClCompile Include="..\..\gui\Panels\GameDatabasePanel.cpp" />
@@ -188,6 +190,7 @@
     <ClCompile Include="..\..\Linux\LnxConsolePipe.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\lua-engine.cpp" />
     <ClCompile Include="..\..\Mdec.cpp" />
     <ClCompile Include="..\..\MultipartFileReader.cpp" />
     <ClCompile Include="..\..\Patch.cpp" />
@@ -440,9 +443,11 @@
     <ClInclude Include="..\..\gui\Debugger\DebugEvents.h" />
     <ClInclude Include="..\..\gui\Debugger\DebuggerLists.h" />
     <ClInclude Include="..\..\gui\Debugger\DisassemblyDialog.h" />
+    <ClInclude Include="..\..\gui\Debugger\LuaConsoleWindow.h" />
     <ClInclude Include="..\..\gui\Panels\MemoryCardPanels.h" />
     <ClInclude Include="..\..\IopGte.h" />
     <ClInclude Include="..\..\IPU\IPUdma.h" />
+    <ClInclude Include="..\..\lua-engine.h" />
     <ClInclude Include="..\..\Mdec.h" />
     <ClInclude Include="..\..\Patch.h" />
     <ClInclude Include="..\..\PrecompiledHeader.h" />
@@ -563,6 +568,7 @@
     <ClInclude Include="..\..\gui\Dialogs\LogOptionsDialog.h" />
     <ClInclude Include="..\..\gui\Dialogs\ModalPopups.h" />
     <ClInclude Include="..\..\gui\MSWstuff.h" />
+    <ClInclude Include="..\luaconsole.h" />
     <ClInclude Include="..\resource.h" />
     <ClInclude Include="..\..\gui\Panels\ConfigurationPanels.h" />
     <ClInclude Include="..\..\gui\Panels\LogOptionsPanels.h" />

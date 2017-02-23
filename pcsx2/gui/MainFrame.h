@@ -115,6 +115,8 @@ protected:
 	wxMenu&			m_LoadStatesSubmenu;
 	wxMenu&			m_SaveStatesSubmenu;
 
+	wxMenu&			m_LuaSubmenu;
+
 	wxMenuItem*		m_menuItem_RecentIsoMenu;
 	wxMenuItem&		m_MenuItem_Console;
 #if defined(__unix__)
@@ -198,6 +200,9 @@ protected:
 	void Menu_Debug_CreateBlockdump_Click(wxCommandEvent &event);
 	void Menu_Ask_On_Boot_Click(wxCommandEvent &event);
 
+	void Menu_Lua_NewWindow(wxCommandEvent &event);
+	void Menu_Lua_CloseAllWindows(wxCommandEvent &event);
+
 	void Menu_ShowConsole(wxCommandEvent &event);
 	void Menu_ChangeLang(wxCommandEvent &event);
 	void Menu_ShowConsole_Stdio(wxCommandEvent &event);
@@ -212,6 +217,7 @@ protected:
 // ------------------------------------------------------------------------
 
 	wxMenu* MakeStatesSubMenu( int baseid, int loadBackupId=-1 ) const;
+	wxMenu* MakeLuaSubMenu() const;
 
 	void ConnectMenus();
 
