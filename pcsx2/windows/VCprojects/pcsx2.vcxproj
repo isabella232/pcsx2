@@ -436,6 +436,7 @@
     <ClCompile Include="..\..\gui\Debugger\DebugEvents.cpp" />
     <ClCompile Include="..\..\gui\Debugger\DebuggerLists.cpp" />
     <ClCompile Include="..\..\gui\Debugger\DisassemblyDialog.cpp" />
+    <ClCompile Include="..\..\gui\Debugger\LuaConsoleWindow.cpp" />
     <ClCompile Include="..\..\gui\Dialogs\GameDatabaseDialog.cpp" />
     <ClCompile Include="..\..\gui\Dialogs\McdConfigDialog.cpp" />
     <ClCompile Include="..\..\gui\Panels\GameDatabasePanel.cpp" />
@@ -444,6 +445,7 @@
     <ClCompile Include="..\..\Linux\LnxConsolePipe.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\lua-engine.cpp" />
     <ClCompile Include="..\..\MultipartFileReader.cpp" />
     <ClCompile Include="..\..\Patch.cpp" />
     <ClCompile Include="..\..\Patch_Memory.cpp" />
@@ -734,8 +736,10 @@
     <ClInclude Include="..\..\gui\Debugger\DebugEvents.h" />
     <ClInclude Include="..\..\gui\Debugger\DebuggerLists.h" />
     <ClInclude Include="..\..\gui\Debugger\DisassemblyDialog.h" />
+    <ClInclude Include="..\..\gui\Debugger\LuaConsoleWindow.h" />
     <ClInclude Include="..\..\gui\Panels\MemoryCardPanels.h" />
     <ClInclude Include="..\..\IPU\IPUdma.h" />
+    <ClInclude Include="..\..\lua-engine.h" />
     <ClInclude Include="..\..\Patch.h" />
     <ClInclude Include="..\..\PrecompiledHeader.h" />
     <ClInclude Include="..\..\Utilities\AsciiFile.h" />
@@ -868,6 +872,7 @@
     <ClInclude Include="..\..\gui\Dialogs\LogOptionsDialog.h" />
     <ClInclude Include="..\..\gui\Dialogs\ModalPopups.h" />
     <ClInclude Include="..\..\gui\MSWstuff.h" />
+    <ClInclude Include="..\luaconsole.h" />
     <ClInclude Include="..\resource.h" />
     <ClInclude Include="..\..\gui\Panels\ConfigurationPanels.h" />
     <ClInclude Include="..\..\gui\Panels\LogOptionsPanels.h" />
@@ -950,6 +955,9 @@
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="..\PCSX2.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\AppIcon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

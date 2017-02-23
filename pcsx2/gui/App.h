@@ -163,6 +163,11 @@ enum MenuIdentifiers
 	MenuId_Debug_MemoryDump,
 	MenuId_Debug_Logging,		// dialog for selection additional log options
 	MenuId_Config_ResetAll,
+
+	// Lua Subsection
+	MenuId_LuaScripting,		// Lua Scripting submenu
+	MenuId_Lua_NewWindow,		// New Lua Script Window...
+	MenuId_Lua_CloseAllWindows,	// Close All Script Windows
 };
 
 namespace Exception

@@ -51,6 +51,16 @@ wxMenu* MainEmuFrame::MakeStatesSubMenu( int baseid, int loadBackupId ) const
 	return mnuSubstates;
 }
 
+wxMenu* MainEmuFrame::MakeLuaSubMenu() const
+{
+	wxMenu* luaMenu = new wxMenu();
+
+	luaMenu->Append(MenuId_Lua_NewWindow,		_("New Lua Script Window..."));
+	luaMenu->Append(MenuId_Lua_CloseAllWindows,	_("Close All Script Windows"));
+
+	return luaMenu;
+}
+
 void MainEmuFrame::UpdateIsoSrcSelection()
 {
 	MenuIdentifiers cdsrc = MenuId_Src_Iso;
@@ -236,6 +246,9 @@ void MainEmuFrame::ConnectMenus()
 	ConnectMenu( MenuId_Debug_MemoryDump,	Menu_Debug_MemoryDump_Click );
 	ConnectMenu( MenuId_Debug_Logging,		Menu_Debug_Logging_Click );
 
+	ConnectMenu( MenuId_Lua_NewWindow,		Menu_Lua_NewWindow );
+	ConnectMenu( MenuId_Lua_CloseAllWindows,	Menu_Lua_CloseAllWindows );
+
 	ConnectMenu( MenuId_Console,			Menu_ShowConsole );
 	ConnectMenu( MenuId_ChangeLang,			Menu_ChangeLang );
 	ConnectMenu( MenuId_Console_Stdio,		Menu_ShowConsole_Stdio );
@@ -323,6 +336,8 @@ MainEmuFrame::MainEmuFrame(wxWindow* parent, const wxString& title)
 
 	, m_LoadStatesSubmenu( *MakeStatesSubMenu( MenuId_State_Load01, MenuId_State_LoadBackup ) )
 	, m_SaveStatesSubmenu( *MakeStatesSubMenu( MenuId_State_Save01 ) )
+
+	, m_LuaSubmenu( *MakeLuaSubMenu() )
 
 	, m_MenuItem_Console( *new wxMenuItem( &m_menuMisc, MenuId_Console, _("Show Console"), wxEmptyString, wxITEM_CHECK ) )
 	, m_MenuItem_Console_Stdio( *new wxMenuItem( &m_menuMisc, MenuId_Console_Stdio, _("Console to Stdio"), wxEmptyString, wxITEM_CHECK ) )
@@ -508,6 +523,12 @@ MainEmuFrame::MainEmuFrame(wxWindow* parent, const wxString& title)
 	// No dialogs implemented for these yet...
 	//m_menuMisc.Append(41, "Patch Browser...", wxEmptyString, wxITEM_NORMAL);
 	//m_menuMisc.Append(42, "Patch Finder...", wxEmptyString, wxITEM_NORMAL);
+
+	m_menuMisc.AppendSeparator();
+	m_menuMisc.Append(MenuId_LuaScripting,	_("Lua Scripting"),	&m_LuaSubmenu);
+#ifndef HAVE_LUA
+	m_menuMisc.Enable(MenuId_LuaScripting, false);
+#endif
 
 	m_menuMisc.AppendSeparator();
 
