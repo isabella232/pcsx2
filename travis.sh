@@ -37,6 +37,7 @@ linux_before_install() {
 		libasound2-dev:i386 \
 		libgl1-mesa-dev:i386 \
 		libgtk2.0-dev:i386 \
+		liblua5.1-0-dev:i386 \
 		liblzma-dev:i386 \
 		libpng12-dev:i386 \
 		libsdl2-dev:i386 \
