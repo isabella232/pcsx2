@@ -78,3 +78,7 @@ GSwindow_OffsetYplus              = Alt-Ctrl-DOWN
 GSwindow_OffsetXminus             = Alt-Ctrl-LEFT
 GSwindow_OffsetXplus              = Alt-Ctrl-RIGHT
 GSwindow_OffsetReset              = Alt-Ctrl-KP_DIVIDE
+
+# Lua Scripting
+Lua_NewWindow                     = Ctrl-Alt-Shift-O
+Lua_CloseAllWindows               = Ctrl-Alt-Shift-C

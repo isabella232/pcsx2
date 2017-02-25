@@ -30,6 +30,10 @@
 #include "DebugTools/Debug.h"
 #include "R3000A.h"
 
+#ifdef HAVE_LUA
+#include "Debugger/LuaConsoleWindow.h"
+#endif
+
 // renderswitch - tells GSdx to go into dx9 sw if "renderswitch" is set.
 bool renderswitch = false;
 
@@ -444,6 +448,20 @@ namespace Implementations
 		if( GSFrame* gsframe = wxGetApp().GetGsFramePtr() )
 			gsframe->ShowFullScreen( !gsframe->IsFullScreen() );
 	}
+
+	void Lua_NewWindow()
+	{
+#ifdef HAVE_LUA
+	LuaConsoleWindow::New();
+#endif
+	}
+
+	void Lua_CloseAllWindows()
+	{
+#ifdef HAVE_LUA
+	LuaConsoleWindow::CloseAll();
+#endif
+	}
 }
 
 // --------------------------------------------------------------------------------------
@@ -583,6 +601,18 @@ static const GlobalCommandDescriptor CommandDeclarations[] =
 
 	{	"FullscreenToggle",
 		Implementations::FullscreenToggle,
+		NULL,
+		NULL,
+	},
+
+	{	"Lua_NewWindow",
+		Implementations::Lua_NewWindow,
+		NULL,
+		NULL,
+	},
+
+	{	"Lua_CloseAllWindows",
+		Implementations::Lua_CloseAllWindows,
 		NULL,
 		NULL,
 	},
