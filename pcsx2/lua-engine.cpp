@@ -22,6 +22,10 @@
 #include "gui/Debugger/LuaConsoleWindow.h"
 #include "gui/Dialogs/ModalPopups.h"
 
+#include "Memory.h"
+#include "IopMem.h"
+#include "DebugTools/DebugInterface.h"
+
 #if defined(WIN32)
 	#include "windows/Win32.h"
 
@@ -50,12 +54,6 @@
 
 using namespace std;
 
-
-// functions that maybe aren't part of the Lua engine
-static bool IsHardwareAddressValid(u32 address) {
-	// maybe TODO? let's say everything is valid.
-	return true;
-}
 
 static bool EMU_HasEmulationStarted() {
 	// TODO
@@ -1832,96 +1830,260 @@ DEFINE_LUA_FUNCTION(emu_redraw, "")
 
 
 
-DEFINE_LUA_FUNCTION(memory_readbyte, "address")
+DEFINE_LUA_FUNCTION(memory_readbyte, "address[,domain=\"r5900\"]")
 {
 	int address = luaL_checkinteger(L,1);
-	// TODO
-	//unsigned char value = (unsigned char)(_MMU_read08<ARMCPU_ARM9>(address) & 0xFF);
+	wxString domain = "r5900";
+	if (!lua_isnoneornil(L,2))
+		domain = luaL_checkstring(L,2);
+
+	DebugInterface* cpu = NULL;
+	if (domain == "r5900") {
+		cpu = &r5900Debug;
+	}
+	else if (domain == "r3000") {
+		cpu = &r3000Debug;
+	}
+	else {
+		luaL_error(L, "Invalid domain. Note that domains are case-sensitive.");
+	}
+
 	unsigned char value = 0;
+	if (cpu->isAlive() && cpu->isValidAddress(address)) {
+		value = cpu->read8(address);
+	}
 	lua_settop(L,0);
 	lua_pushinteger(L, value);
 	return 1; // we return the number of return values
 }
-DEFINE_LUA_FUNCTION(memory_readbytesigned, "address")
+DEFINE_LUA_FUNCTION(memory_readbytesigned, "address[,domain=\"r5900\"]")
 {
 	int address = luaL_checkinteger(L,1);
-	// TODO
-	//signed char value = (signed char)(_MMU_read08<ARMCPU_ARM9>(address) & 0xFF);
+	wxString domain = "r5900";
+	if (!lua_isnoneornil(L,2))
+		domain = luaL_checkstring(L,2);
+
+	DebugInterface* cpu = NULL;
+	if (domain == "r5900") {
+		cpu = &r5900Debug;
+	}
+	else if (domain == "r3000") {
+		cpu = &r3000Debug;
+	}
+	else {
+		luaL_error(L, "Invalid domain. Note that domains are case-sensitive.");
+	}
+
 	signed char value = 0;
+	if (cpu->isAlive() && cpu->isValidAddress(address)) {
+		value = cpu->read8(address);
+	}
 	lua_settop(L,0);
 	lua_pushinteger(L, value);
 	return 1;
 }
-DEFINE_LUA_FUNCTION(memory_readword, "address")
+DEFINE_LUA_FUNCTION(memory_readword, "address[,domain=\"r5900\"]")
 {
 	int address = luaL_checkinteger(L,1);
-	// TODO
-	//unsigned short value = (unsigned short)(_MMU_read16<ARMCPU_ARM9>(address) & 0xFFFF);
+	wxString domain = "r5900";
+	if (!lua_isnoneornil(L,2))
+		domain = luaL_checkstring(L,2);
+
+	DebugInterface* cpu = NULL;
+	if (domain == "r5900") {
+		cpu = &r5900Debug;
+	}
+	else if (domain == "r3000") {
+		cpu = &r3000Debug;
+	}
+	else {
+		luaL_error(L, "Invalid domain. Note that domains are case-sensitive.");
+	}
+
 	unsigned short value = 0;
+	if (cpu->isAlive() && cpu->isValidAddress(address)) {
+		value = cpu->read16(address);
+	}
 	lua_settop(L,0);
 	lua_pushinteger(L, value);
 	return 1;
 }
-DEFINE_LUA_FUNCTION(memory_readwordsigned, "address")
+DEFINE_LUA_FUNCTION(memory_readwordsigned, "address[,domain=\"r5900\"]")
 {
 	int address = luaL_checkinteger(L,1);
-	// TODO
-	//signed short value = (signed short)(_MMU_read16<ARMCPU_ARM9>(address) & 0xFFFF);
+	wxString domain = "r5900";
+	if (!lua_isnoneornil(L,2))
+		domain = luaL_checkstring(L,2);
+
+	DebugInterface* cpu = NULL;
+	if (domain == "r5900") {
+		cpu = &r5900Debug;
+	}
+	else if (domain == "r3000") {
+		cpu = &r3000Debug;
+	}
+	else {
+		luaL_error(L, "Invalid domain. Note that domains are case-sensitive.");
+	}
+
 	signed short value = 0;
+	if (cpu->isAlive() && cpu->isValidAddress(address)) {
+		value = cpu->read16(address);
+	}
 	lua_settop(L,0);
 	lua_pushinteger(L, value);
 	return 1;
 }
-DEFINE_LUA_FUNCTION(memory_readdword, "address")
+DEFINE_LUA_FUNCTION(memory_readdword, "address[,domain=\"r5900\"]")
 {
 	int address = luaL_checkinteger(L,1);
-	// TODO
-	//unsigned long value = (unsigned long)(_MMU_read32<ARMCPU_ARM9>(address));
+	wxString domain = "r5900";
+	if (!lua_isnoneornil(L,2))
+		domain = luaL_checkstring(L,2);
+
+	DebugInterface* cpu = NULL;
+	if (domain == "r5900") {
+		cpu = &r5900Debug;
+	}
+	else if (domain == "r3000") {
+		cpu = &r3000Debug;
+	}
+	else {
+		luaL_error(L, "Invalid domain. Note that domains are case-sensitive.");
+	}
+
 	unsigned long value = 0;
+	if (cpu->isAlive() && cpu->isValidAddress(address)) {
+		value = cpu->read32(address);
+	}
 	lua_settop(L,0);
 	lua_pushnumber(L, value); // can't use pushinteger in this case (out of range)
 	return 1;
 }
-DEFINE_LUA_FUNCTION(memory_readdwordsigned, "address")
+DEFINE_LUA_FUNCTION(memory_readdwordsigned, "address[,domain=\"r5900\"]")
 {
 	int address = luaL_checkinteger(L,1);
-	// TODO
-	//signed long value = (signed long)(_MMU_read32<ARMCPU_ARM9>(address));
+	wxString domain = "r5900";
+	if (!lua_isnoneornil(L,2))
+		domain = luaL_checkstring(L,2);
+
+	DebugInterface* cpu = NULL;
+	if (domain == "r5900") {
+		cpu = &r5900Debug;
+	}
+	else if (domain == "r3000") {
+		cpu = &r3000Debug;
+	}
+	else {
+		luaL_error(L, "Invalid domain. Note that domains are case-sensitive.");
+	}
+
 	signed long value = 0;
+	if (cpu->isAlive() && cpu->isValidAddress(address)) {
+		value = cpu->read32(address);
+	}
 	lua_settop(L,0);
 	lua_pushinteger(L, value);
 	return 1;
 }
 
-DEFINE_LUA_FUNCTION(memory_writebyte, "address,value")
+DEFINE_LUA_FUNCTION(memory_writebyte, "address,value[,domain=\"r5900\"]")
 {
 	int address = luaL_checkinteger(L,1);
 	unsigned char value = (unsigned char)(luaL_checkinteger(L,2) & 0xFF);
-	// TODO
-	//_MMU_write08<ARMCPU_ARM9>(address, value);
+	wxString domain = "r5900";
+	if (!lua_isnoneornil(L,3))
+		domain = luaL_checkstring(L,3);
+
+	DebugInterface* cpu = NULL;
+	if (domain == "r5900") {
+		cpu = &r5900Debug;
+	}
+	else if (domain == "r3000") {
+		cpu = &r3000Debug;
+	}
+	else {
+		luaL_error(L, "Invalid domain. Note that domains are case-sensitive.");
+	}
+
+	if (cpu->isAlive() && cpu->isValidAddress(address)) {
+		cpu->write8(address, value);
+	}
 	return 0;
 }
-DEFINE_LUA_FUNCTION(memory_writeword, "address,value")
+DEFINE_LUA_FUNCTION(memory_writeword, "address,value[,domain=\"r5900\"]")
 {
 	int address = luaL_checkinteger(L,1);
 	unsigned short value = (unsigned short)(luaL_checkinteger(L,2) & 0xFFFF);
-	// TODO
-	//_MMU_write16<ARMCPU_ARM9>(address, value);
+	wxString domain = "r5900";
+	if (!lua_isnoneornil(L,3))
+		domain = luaL_checkstring(L,3);
+
+	DebugInterface* cpu = NULL;
+	if (domain == "r5900") {
+		cpu = &r5900Debug;
+	}
+	else if (domain == "r3000") {
+		cpu = &r3000Debug;
+	}
+	else {
+		luaL_error(L, "Invalid domain. Note that domains are case-sensitive.");
+	}
+
+	if (cpu->isAlive() && cpu->isValidAddress(address)) {
+		// DebugInterface does not have a 16-bit write function. I'm not sure why.
+		if (cpu == &r3000Debug) {
+			iopMemWrite16(address, value);
+		}
+		else {
+			memWrite16(address, value);
+		}
+	}
 	return 0;
 }
-DEFINE_LUA_FUNCTION(memory_writedword, "address,value")
+DEFINE_LUA_FUNCTION(memory_writedword, "address,value[,domain=\"r5900\"]")
 {
 	int address = luaL_checkinteger(L,1);
 	unsigned long value = (unsigned long)(luaL_checkinteger(L,2));
-	// TODO
-	//_MMU_write32<ARMCPU_ARM9>(address, value);
+	wxString domain = "r5900";
+	if (!lua_isnoneornil(L,3))
+		domain = luaL_checkstring(L,3);
+
+	DebugInterface* cpu = NULL;
+	if (domain == "r5900") {
+		cpu = &r5900Debug;
+	}
+	else if (domain == "r3000") {
+		cpu = &r3000Debug;
+	}
+	else {
+		luaL_error(L, "Invalid domain. Note that domains are case-sensitive.");
+	}
+
+	if (cpu->isAlive() && cpu->isValidAddress(address)) {
+		cpu->write32(address, value);
+	}
 	return 0;
 }
 
-DEFINE_LUA_FUNCTION(memory_readbyterange, "address,length")
+DEFINE_LUA_FUNCTION(memory_readbyterange, "address,length[,domain=\"r5900\"]")
 {
 	int address = luaL_checkinteger(L,1);
 	int length = luaL_checkinteger(L,2);
+	wxString domain = "r5900";
+	if (!lua_isnoneornil(L,3))
+		domain = luaL_checkstring(L,3);
+
+	DebugInterface* cpu = NULL;
+	if (domain == "r5900") {
+		cpu = &r5900Debug;
+	}
+	else if (domain == "r3000") {
+		cpu = &r3000Debug;
+	}
+	else {
+		luaL_error(L, "Invalid domain. Note that domains are case-sensitive.");
+	}
 
 	if(length < 0)
 	{
@@ -1933,27 +2095,42 @@ DEFINE_LUA_FUNCTION(memory_readbyterange, "address,length")
 	lua_createtable(L, abs(length), 0);
 
 	// put all the values into the (1-based) array
-	for(int a = address, n = 1; n <= length; a++, n++)
-	{
-		if(IsHardwareAddressValid(a))
+	if (cpu->isAlive()) {
+		for(int a = address, n = 1; n <= length; a++, n++)
 		{
-			// TODO
-			//unsigned char value = (unsigned char)(_MMU_read08<ARMCPU_ARM9>(a) & 0xFF);
-			unsigned char value = 0;
-			lua_pushinteger(L, value);
-			lua_rawseti(L, -2, n);
+			if(cpu->isValidAddress(a))
+			{
+				unsigned char value = cpu->read8(a);
+				lua_pushinteger(L, value);
+				lua_rawseti(L, -2, n);
+			}
+			// else leave the value nil
 		}
-		// else leave the value nil
 	}
 
 	return 1;
 }
 
-DEFINE_LUA_FUNCTION(memory_isvalid, "address")
+DEFINE_LUA_FUNCTION(memory_isvalid, "address[,domain=\"r5900\"]")
 {
 	int address = luaL_checkinteger(L,1);
+	wxString domain = "r5900";
+	if (!lua_isnoneornil(L,2))
+		domain = luaL_checkstring(L,2);
+
+	DebugInterface* cpu = NULL;
+	if (domain == "r5900") {
+		cpu = &r5900Debug;
+	}
+	else if (domain == "r3000") {
+		cpu = &r3000Debug;
+	}
+	else {
+		luaL_error(L, "Invalid domain. Note that domains are case-sensitive.");
+	}
+
 	lua_settop(L,0);
-	lua_pushboolean(L, IsHardwareAddressValid(address));
+	lua_pushboolean(L, cpu->isValidAddress(address));
 	return 1;
 }
 
@@ -3904,31 +4081,31 @@ static const struct luaL_reg statelib [] =
 };
 static const struct luaL_reg memorylib [] =
 {
-	//{"readbyte", memory_readbyte},
-	//{"readbytesigned", memory_readbytesigned},
-	//{"readword", memory_readword},
-	//{"readwordsigned", memory_readwordsigned},
-	//{"readdword", memory_readdword},
-	//{"readdwordsigned", memory_readdwordsigned},
-	//{"readbyterange", memory_readbyterange},
-	//{"writebyte", memory_writebyte},
-	//{"writeword", memory_writeword},
-	//{"writedword", memory_writedword},
-	//{"isvalid", memory_isvalid},
+	{"readbyte", memory_readbyte},
+	{"readbytesigned", memory_readbytesigned},
+	{"readword", memory_readword},
+	{"readwordsigned", memory_readwordsigned},
+	{"readdword", memory_readdword},
+	{"readdwordsigned", memory_readdwordsigned},
+	{"readbyterange", memory_readbyterange},
+	{"writebyte", memory_writebyte},
+	{"writeword", memory_writeword},
+	{"writedword", memory_writedword},
+	{"isvalid", memory_isvalid},
 	//{"getregister", memory_getregister},
 	//{"setregister", memory_setregister},
 	// alternate naming scheme for word and double-word and unsigned
-	//{"readbyteunsigned", memory_readbyte},
-	//{"readwordunsigned", memory_readword},
-	//{"readdwordunsigned", memory_readdword},
-	//{"readshort", memory_readword},
-	//{"readshortunsigned", memory_readword},
-	//{"readshortsigned", memory_readwordsigned},
-	//{"readlong", memory_readdword},
-	//{"readlongunsigned", memory_readdword},
-	//{"readlongsigned", memory_readdwordsigned},
-	//{"writeshort", memory_writeword},
-	//{"writelong", memory_writedword},
+	{"readbyteunsigned", memory_readbyte},
+	{"readwordunsigned", memory_readword},
+	{"readdwordunsigned", memory_readdword},
+	{"readshort", memory_readword},
+	{"readshortunsigned", memory_readword},
+	{"readshortsigned", memory_readwordsigned},
+	{"readlong", memory_readdword},
+	{"readlongunsigned", memory_readdword},
+	{"readlongsigned", memory_readdwordsigned},
+	{"writeshort", memory_writeword},
+	{"writelong", memory_writedword},
 
 	// memory hooks
 	//{"registerwrite", memory_registerwrite},
